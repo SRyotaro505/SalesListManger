@@ -1,0 +1,83 @@
+﻿@section scripts{
+    @Scripts.Render("~/Scripts/DBConTemplate/AjaxSelect.js")
+    <script type="text/javascript">
+        $(function () {
+            var auth = sessionStorage.getItem("auth");
+            if (auth != 1) {
+                window.location.href = "../Login/Login";
+            }
+            getData(0);
+        });
+
+        function editData(cd) {
+            $('#dataCd').val(cd);
+            $('#toEditData').submit();
+        }
+
+        function excelDownload() {
+            $('#toExcel').submit();
+        }
+    </script>
+}
+
+<div class="form-row">
+    <div class="form-group col-3">
+        <select id="statusSearch" class="form-control">
+            <option value='' selected>選択してください</option>
+            <option>未対応</option>
+            <option>連絡済み</option>
+            <option>交渉中</option>
+            <option>確定</option>
+            <option>不可</option>
+        </select>
+    </div>
+    <div class="form-group col-3">
+        <select id="chargeSearch" class="form-control">
+            <option value="" selected>選択してください</option>
+            <option value="成清">成清</option>
+            <option value="山田">山田</option>
+            <option value="高木">高木</option>
+            <option value="鈴木">鈴木</option>
+            <option value="0">未定</option>
+        </select>
+    </div>
+    <div class="form-group col-3">
+        <button type="button" class="btn btn-primary" onclick="searchCheck()">検索</button>
+    </div>
+    <div class="form-group col-3 text-right">
+        <button type="button" class="btn btn-primary" onclick="createData()">新規作成</button>
+    </div>
+</div>
+
+<table class="table">
+    <thead class=" thead-dark text-center">
+        <tr>
+            <th scope="col">企業名</th>
+            <th scope="col">状態</th>
+            <th scope="col">担当者</th>
+            <th scope="col">備考</th>
+            <th scope="col">更新日</th>
+            <th scope="col"></th>
+            <th scope="col"></th>
+        </tr>
+    </thead>
+    <tbody class="text-center" id="dataList">
+    </tbody>
+</table>
+
+<div class="text-center">
+    <button type="button" class="btn btn-primary" onclick="excelDownload()">Excel出力</button>
+</div>
+
+<div class="pager" id="paging"></div>
+
+@using (Html.BeginForm("EditData", "Select", FormMethod.Post, new { @id = "toEditData" }))
+{
+    @Html.Hidden("dataCd", new { @id = "dataCd" })
+}
+
+@using (Html.BeginForm("DownloadExcel", "Select", FormMethod.Post, new { @id = "toExcel" }))
+{
+    @Html.Hidden("dataCd", new { @id = "dataCd" })
+}
+

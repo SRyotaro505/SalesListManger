@@ -1,0 +1,102 @@
+﻿@model DBConTemplate.Models.SelectModel
+@{
+    var maxcnt = 0;
+}
+@section scripts{
+    @Scripts.Render("~/Scripts/Chart.js")
+    <script type="text/javascript">
+        $(function () {
+            var auth = sessionStorage.getItem("auth");
+            if (auth != 1) {
+                window.location.href = "../Login/Login";
+            }
+            @if (Model.dataCount > 15) {
+                maxcnt = 15;
+            }
+            else if(Model.dataCount > 30)
+            {
+                maxcnt = 30;
+            }else if (Model.dataCount > 50)
+            {
+                maxcnt = 50;
+            }
+            makeBarChart();
+            makePieChart();
+        });
+
+        function makeBarChart() {
+            var ctx = document.getElementById("myBarChart");
+            var myBarChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['未対応', '連絡済み', '交渉中', '確定', '不可'],
+                    datasets: [
+                        {
+                            label: 'ステータス別集計',
+                            data: [@Model.barCount1, @Model.barCount2, @Model.barCount3, @Model.barCount4, @Model.barCount5],
+                            backgroundColor: "#485696"
+                        }
+                    ]
+                },
+                options: {
+                    title: {
+                        display: true,
+                        text: 'ステータス別件数'
+                    },
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                suggestedMax: @maxcnt,
+                                suggestedMin: 0,
+                                stepSize: 1,
+                                callback: function (value, index, values) {
+                                    return value + '件'
+                                }
+                                }
+                        }]
+                    },
+                }
+            });
+        }
+
+        function makePieChart() {
+            var ctx = document.getElementById("myPieChart");
+            var myPieChart = new Chart(ctx, {
+                type: 'pie',
+                data: {
+                    labels: ["成清", "山田", "高木", "鈴木", "未定"],
+                    datasets: [{
+                        backgroundColor: [
+                            "#540D6E",
+                            "#EE4266",
+                            "#FFD23F",
+                            "#F3FCF0",
+                            "#1F271B"
+                        ],
+                        data: [@Model.pieCount1, @Model.pieCount2, @Model.pieCount3, @Model.pieCount4, @Model.pieCount5]
+                    }]
+                },
+                options: {
+                    title: {
+                        display: true,
+                        text: '担当件数'
+                    }
+                }
+            });
+        }
+    </script>
+}
+
+<h2>データ集計</h2>
+
+<div class="jumbotron">
+    <div class="col-12">
+        <canvas id="myBarChart" style="position:relative; height:70vh; width:80vw"></canvas>
+    </div>
+</div>
+
+<div class="jumbotron">
+    <div class="col-12">
+        <canvas id="myPieChart" style="position:relative; height:70vh; width:80vw"></canvas>
+    </div>
+</div>

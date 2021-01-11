@@ -1,0 +1,51 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" type="image/x-icon" href="~/favicon.ico">
+    <title>営業リスト</title>
+    @Styles.Render("~/Content/css")
+    @Styles.Render("~/Content/Common.css")
+    @Scripts.Render("~/bundles/modernizr")
+</head>
+<body>
+    <div class="hamburger">
+        <span></span>
+        <span></span>
+        <span></span>
+    </div>
+
+    <nav class="globalMenuSp">
+        <ul>
+            <li><a href="~/Select/AjaxSelect">営業先一覧</a></li>
+            <li><a href="~/Select/CreateData">新規作成</a></li>
+            <li><a href="~/Select/AggrGate">データ集計</a></li>
+            <li><a href="~/Login/Login">ログアウト</a></li>
+        </ul>
+    </nav>
+
+    <div class="container body-content">
+        @RenderBody()
+        <footer>
+        </footer>
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+
+
+    <script type="text/javascript">
+        $('.hamburger').click(function () {
+            $(this).toggleClass('active');
+            if ($(this).hasClass('active')) {
+                $('.globalMenuSp').addClass('active');
+            } else {
+                $('.globalMenuSp').removeClass('active');
+            }
+        });
+    </script>
+</body>
+</html>

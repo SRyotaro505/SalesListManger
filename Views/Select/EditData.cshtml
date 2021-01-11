@@ -1,0 +1,123 @@
+﻿@model DBConTemplate.Models.SelectModel
+@section scripts{
+    @Scripts.Render("~/Scripts/DBConTemplate/EditData.js")
+    <script type="text/javascript">
+        $(function () {
+            var auth = sessionStorage.getItem("auth");
+            if (auth != 1) {
+                window.location.href = "../Login/Login";
+            }
+        });
+    </script>
+}
+
+<h2>更新</h2>
+
+<table class="table">
+    <thead class=" thead-dark text-center">
+        <tr>
+            <th scope="col">企業名</th>
+            <th scope="col">企業URL</th>
+            <th scope="col">状態</th>
+            <th scope="col">担当者</th>
+            <th scope="col">備考</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td class="pt-1"><span class="badge badge-danger">*</span><input type="text" id="companyName" value="@Model.companyName" class="form-control"></td>
+            <td class="pt-1"><span class="badge badge-danger">*</span><input type="text" id="companyUrl" value="@Model.companyUrl" class="form-control"></td>
+            <td style="padding-top: 28px;">
+                <select id="status" class="form-control">
+                    @if (Model.status == "未対応")
+                    {
+                        <option selected>未対応</option>
+                        <option>連絡済み</option>
+                        <option>交渉中</option>
+                        <option>確定</option>
+                        <option>不可</option>
+                    }
+                    else if (Model.status == "連絡済み")
+                    {
+                        <option>未対応</option>
+                        <option selected>連絡済み</option>
+                        <option>交渉中</option>
+                        <option>確定</option>
+                        <option>不可</option>
+                    }
+                    else if (Model.status == "交渉中")
+                    {
+                        <option>未対応</option>
+                        <option>連絡済み</option>
+                        <option selected>交渉中</option>
+                        <option>確定</option>
+                        <option>不可</option>
+                    }
+                    else if (Model.status == "確定")
+                    {
+                        <option>未対応</option>
+                        <option>連絡済み</option>
+                        <option>交渉中</option>
+                        <option selected>確定</option>
+                        <option>不可</option>
+                    }
+                    else if (Model.status == "不可")
+                    {
+                        <option>未対応</option>
+                        <option>連絡済み</option>
+                        <option>交渉中</option>
+                        <option>確定</option>
+                        <option selected>不可</option>
+                    }
+                </select>
+            </td>
+            <td style="padding-top: 28px;">
+                <select id="charge" class="form-control">
+                    @if (Model.charge == "成清")
+                    {
+                        <option value="成清" selected>成清</option>
+                        <option value="山田">山田</option>
+                        <option value="高木">高木</option>
+                        <option value="鈴木">鈴木</option>
+                    }
+                    else if (Model.charge == "山田")
+                    {
+                        <option value="成清">成清</option>
+                        <option value="山田" selected>山田</option>
+                        <option value="高木">高木</option>
+                        <option value="鈴木">鈴木</option>
+                    }
+                    else if (Model.charge == "高木")
+                    {
+                        <option value="成清">成清</option>
+                        <option value="山田">山田</option>
+                        <option value="高木" selected>高木</option>
+                        <option value="鈴木">鈴木</option>
+                    }
+                    else if (Model.charge == "鈴木")
+                    {
+                        <option value="成清">成清</option>
+                        <option value="山田">山田</option>
+                        <option value="高木">高木</option>
+                        <option value="鈴木" selected>鈴木</option>
+                    }
+                    else
+                    {
+                        <option value='' disabled selected style='display:none;'>選択してください</option>
+                        <option value="成清">成清</option>
+                        <option value="山田">山田</option>
+                        <option value="高木">高木</option>
+                        <option value="鈴木">鈴木</option>
+                    }
+                </select>
+            </td>
+            <td style="padding-top: 28px;"><input type="text" id="note" value="@Model.note" class="form-control"></td>
+        </tr>
+    </tbody>
+</table>
+
+<div class="text-center">
+    <button type="button" class="btn btn-primary" onclick="submitData(@Model.cd)">登録</button>
+    <button type="button" class="btn btn-primary" onclick="toList()">戻る</button>
+</div>
+
