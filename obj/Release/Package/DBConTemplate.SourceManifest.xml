@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <sitemanifest>
-  <IisApp path="C:\Program Files\Work\02_VisualStudio\SaleListManager【2021.01.12】\SalesListManger\obj\Release\Package\PackageTmp" />
-  <setAcl path="C:\Program Files\Work\02_VisualStudio\SaleListManager【2021.01.12】\SalesListManger\obj\Release\Package\PackageTmp" setAclResourceType="Directory" />
-  <setAcl path="C:\Program Files\Work\02_VisualStudio\SaleListManager【2021.01.12】\SalesListManger\obj\Release\Package\PackageTmp" setAclUser="anonymousAuthenticationUser" setAclResourceType="Directory" />
+  <IisApp path="C:\ProgramData\WorkSpace\02_VisualStudio\営業リスト管理システム【2020.01.14】\trunk\obj\Release\Package\PackageTmp" />
+  <setAcl path="C:\ProgramData\WorkSpace\02_VisualStudio\営業リスト管理システム【2020.01.14】\trunk\obj\Release\Package\PackageTmp" setAclResourceType="Directory" />
+  <setAcl path="C:\ProgramData\WorkSpace\02_VisualStudio\営業リスト管理システム【2020.01.14】\trunk\obj\Release\Package\PackageTmp" setAclUser="anonymousAuthenticationUser" setAclResourceType="Directory" />
 </sitemanifest>

@@ -32,6 +32,7 @@
                     url: "../Select/DeleteStatusSubmit",
                     data: { cd: cd },
                     beforeSend: function () {
+                        showLoader();
                     }
 
                 }).fail(function () {
@@ -47,6 +48,7 @@
                     }
 
                 }).always(function () {
+                    hideLoader();
                 });
             }
         }

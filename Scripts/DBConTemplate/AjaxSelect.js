@@ -5,7 +5,7 @@ function getData(count) {
         url: "../Select/GetDataFromAjax",
         data: { count: count},
         beforeSend: function () {
-            //POST前の動作(ローダー出したり)
+            showLoader();
         }
 
     }).fail(function () {
@@ -44,7 +44,7 @@ function getData(count) {
         }
 
     }).always(function () {
-        //成功、失敗にかかわらず常に行う処理
+        hideLoader();
     });
 }
 
@@ -72,7 +72,7 @@ function searchData(count) {
         url: "../Select/SearchData",
         data: { statusSearch: statusSearch, chargeSearch: chargeSearch, count: count },
         beforeSend: function () {
-            //POST前の動作(ローダー出したり)
+            showLoader();
         }
 
     }).fail(function () {
@@ -111,7 +111,7 @@ function searchData(count) {
         }
 
     }).always(function () {
-        //成功、失敗にかかわらず常に行う処理
+        hideLoader();
     });
 }
 
@@ -123,7 +123,7 @@ function searchDataDesc(count) {
         url: "../Select/DataSortDesc",
         data: { count: count },
         beforeSend: function () {
-            //POST前の動作(ローダー出したり)
+            showLoader();
         }
 
     }).fail(function () {
@@ -162,7 +162,7 @@ function searchDataDesc(count) {
         }
 
     }).always(function () {
-        //成功、失敗にかかわらず常に行う処理
+        hideLoader();
     });
 }
 
@@ -174,7 +174,7 @@ function searchDataAsc(count) {
         url: "../Select/DataSortAsc",
         data: { count: count },
         beforeSend: function () {
-            //POST前の動作(ローダー出したり)
+            showLoader();
         }
 
     }).fail(function () {
@@ -213,7 +213,7 @@ function searchDataAsc(count) {
         }
 
     }).always(function () {
-        //成功、失敗にかかわらず常に行う処理
+        hideLoader();
     });
 }
 
@@ -228,7 +228,7 @@ function delData(cd) {
             url: "../Select/DeleteData",
             data: { cd: cd },
             beforeSend: function () {
-                //POST前の動作(ローダー出したり)
+                showLoader();
             }
 
         }).fail(function () {
@@ -244,7 +244,7 @@ function delData(cd) {
             }
 
         }).always(function () {
-            //成功、失敗にかかわらず常に行う処理
+            hideLoader();
         });
     }
 }

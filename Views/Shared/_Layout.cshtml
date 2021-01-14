@@ -29,9 +29,12 @@
 
     <div class="container body-content">
         @RenderBody()
-        <footer>
-        </footer>
     </div>
+
+    <div class="loader d-none" id="loader">Loading...</div>
+
+    <footer>
+    </footer>
 
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
@@ -47,6 +50,14 @@
                 $('.globalMenuSp').removeClass('active');
             }
         });
+
+        function showLoader(){
+            $('#loader').removeClass("d-none");
+        }
+
+        function hideLoader() {
+            $('#loader').addClass("d-none");
+        }
     </script>
 </body>
 </html>

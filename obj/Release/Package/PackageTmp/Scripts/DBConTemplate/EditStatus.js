@@ -7,7 +7,7 @@ function submitData(cd) {
         url: "../Select/EditStatusSubmit",
         data: { cd: cd, statusName: statusName },
         beforeSend: function () {
-            //POST前の動作(ローダー出したり)
+            showLoader();
         }
 
     }).fail(function () {
@@ -24,7 +24,7 @@ function submitData(cd) {
         }
 
     }).always(function () {
-        //成功、失敗にかかわらず常に行う処理
+        hideLoader();
     });
 }
 

@@ -21,7 +21,7 @@ function submitData() {
         url: "../Select/SubmitNewData",
         data: { companyName: companyName, companyUrl: companyUrl, status: status, charge: charge, note: note },
         beforeSend: function () {
-            //POST前の動作(ローダー出したり)
+            showLoader();
         }
 
     }).fail(function () {
@@ -37,7 +37,7 @@ function submitData() {
         }
 
     }).always(function () {
-        //成功、失敗にかかわらず常に行う処理
+        hideLoader();
     });
 }
 

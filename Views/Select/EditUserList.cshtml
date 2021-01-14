@@ -33,6 +33,7 @@
                     url: "../Select/DeleteUserDataSubmit",
                     data: { cd: cd },
                     beforeSend: function () {
+                        showLoader();
                     }
 
                 }).fail(function () {
@@ -48,6 +49,7 @@
                     }
 
                 }).always(function () {
+                    hideLoader();
                 });
             }
         }

@@ -31,7 +31,7 @@ function submitData() {
         url: "../Select/SubmitNewUser",
         data: { userName: userName, mail: mail, password: password },
         beforeSend: function () {
-            //POST前の動作(ローダー出したり)
+            showLoader();
         }
 
     }).fail(function () {
@@ -48,6 +48,6 @@ function submitData() {
         }
 
     }).always(function () {
-        //成功、失敗にかかわらず常に行う処理
+        hideLoader();
     });
 }
