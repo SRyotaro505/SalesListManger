@@ -1,0 +1,34 @@
+﻿@model DBConTemplate.Models.SelectModel
+@section scripts{
+    @Scripts.Render("~/Scripts/DBConTemplate/EditStatus.js")
+
+    <script type="text/javascript">
+        $(function () {
+            var auth = sessionStorage.getItem("auth");
+            if (auth != 1) {
+                window.location.href = "../Login/Login";
+            }
+        });
+    </script>
+}
+
+<h2>ステータス編集</h2>
+
+<table class="table">
+    <thead class="thead-dark text-center">
+        <tr>
+            <th scope="col">状態名称</th>
+        </tr>
+    </thead>
+    <tbody class="text-center">
+        <tr>
+            <td><input type="text" id="statusName" class="form-control" value="@Model.status"></td>
+        </tr>
+    </tbody>
+</table>
+
+<div class="text-center">
+    <button type="button" class="btn btn-primary" onclick="toList()">戻る</button>
+    <button type="button" class="btn btn-primary" id="submit" onclick="submitData(@Model.cd)">登録</button>
+</div>
+

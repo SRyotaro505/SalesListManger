@@ -19,7 +19,18 @@ namespace DBConTemplate.Controllers
         //リストページ
         public ActionResult AjaxSelect()
         {
-            return View();
+            SelectModel selectModel = new SelectModel();
+            String errorMessage = String.Empty;
+            try
+            {
+                selectModel.GetStatus();
+                selectModel.GetUser();
+            }
+            catch
+            {
+
+            }
+            return View(selectModel);
         }
 
         //全件取得
@@ -40,16 +51,51 @@ namespace DBConTemplate.Controllers
             return Json(new { DATA = selectModel, ErrorMessage = errorMessage });
         }
 
-
-        //検索
-        public ActionResult SearchData(string statusSearch, string chargeSearch)
+        //降順切り替え
+        public ActionResult DataSortDesc(int count)
         {
             SelectModel selectModel = new SelectModel();
             String errorMessage = String.Empty;
             try
             {
                 //データ取得
-                selectModel.GetSearchData(statusSearch, chargeSearch);
+                selectModel.GetDataDesc(count);
+            }
+            catch (Exception e)
+            {
+                log.Fatal(e);
+                errorMessage = "データの取得に失敗しました。";
+            }
+            return Json(new { DATA = selectModel, ErrorMessage = errorMessage });
+        }
+
+        //昇順切り替え
+        public ActionResult DataSortAsc(int count)
+        {
+            SelectModel selectModel = new SelectModel();
+            String errorMessage = String.Empty;
+            try
+            {
+                //データ取得
+                selectModel.GetDataAsc(count);
+            }
+            catch (Exception e)
+            {
+                log.Fatal(e);
+                errorMessage = "データの取得に失敗しました。";
+            }
+            return Json(new { DATA = selectModel, ErrorMessage = errorMessage });
+        }
+
+        //検索
+        public ActionResult SearchData(string statusSearch, string chargeSearch, int count)
+        {
+            SelectModel selectModel = new SelectModel();
+            String errorMessage = String.Empty;
+            try
+            {
+                //データ取得
+                selectModel.GetSearchData(statusSearch, chargeSearch, count);
             }
             catch (Exception e)
             {
@@ -79,7 +125,18 @@ namespace DBConTemplate.Controllers
         //新規作成画面
         public ActionResult CreateData()
         {
-            return View();
+            SelectModel selectModel = new SelectModel();
+            String errorMessage = String.Empty;
+            try
+            {
+                selectModel.GetStatus();
+                selectModel.GetUser();
+            }
+            catch (Exception e)
+            {
+                log.Fatal(e);
+            }
+            return View(selectModel);
         }
 
         //新規作成
@@ -89,7 +146,15 @@ namespace DBConTemplate.Controllers
             String errorMessage = String.Empty;
             try
             {
+                if (charge == "")
+                {
+                    charge = "0";
+                }
                 selectModel.CreateNewData(companyName, companyUrl, status, charge, note);
+                if (selectModel.errorFlg != 0)
+                {
+                    errorMessage = "データの作成に失敗しました。";
+                }
             }
             catch (Exception e)
             {
@@ -106,6 +171,8 @@ namespace DBConTemplate.Controllers
             try
             {
                 SelectModel = SelectModel.GetOneData(dataCd);
+                SelectModel = SelectModel.GetStatus();
+                SelectModel = SelectModel.GetUser();
             }
             catch (Exception e)
             {
@@ -142,7 +209,7 @@ namespace DBConTemplate.Controllers
                 // Excel ファイル作成
                 var workbook = new XLWorkbook();
                 //シート作成
-                var worksheet =workbook.Worksheets.Add("営業先リスト");
+                var worksheet = workbook.Worksheets.Add("営業先リスト");
                 //ヘッダー書き込み
                 worksheet.Cell("A1").Value = "企業名";
                 worksheet.Cell("B1").Value = "URL";
@@ -153,17 +220,28 @@ namespace DBConTemplate.Controllers
                 //スタイル設定
                 worksheet.Range("A1:F1").Style.Border.BottomBorder = XLBorderStyleValues.Double;
                 worksheet.Range("A1:F1").Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
-                
+
                 //データ書き込み
-                for (int i=0; i<selectModel.listData.Count; i++)
+                for (int i = 0; i < selectModel.listData.Count; i++)
                 {
+                    var color = XLColor.Yellow;
                     var number = i + 2;
-                    worksheet.Cell("A"+ number).Value = selectModel.listData[i].companyName;
-                    worksheet.Cell("B"+ number).Value = selectModel.listData[i].companyUrl;
-                    worksheet.Cell("C" + number).Value = selectModel.listData[i].charge;
-                    worksheet.Cell("D" + number).Value = selectModel.listData[i].status;
-                    worksheet.Cell("E" + number).Value = selectModel.listData[i].note;
-                    worksheet.Cell("F" + number).Value = selectModel.listData[i].date;
+                    worksheet.Cell("A" + number).SetValue(selectModel.listData[i].companyName).Style.Alignment.SetHorizontal(XLAlignmentHorizontalValues.Left);
+                    worksheet.Cell("B" + number).SetValue(selectModel.listData[i].companyUrl).Style.Alignment.SetHorizontal(XLAlignmentHorizontalValues.Left);
+                    worksheet.Cell("C" + number).SetValue(selectModel.listData[i].charge).Style.Alignment.SetHorizontal(XLAlignmentHorizontalValues.Left);
+                    worksheet.Cell("D" + number).SetValue(selectModel.listData[i].status).Style.Alignment.SetHorizontal(XLAlignmentHorizontalValues.Left);
+                    worksheet.Cell("E" + number).SetValue(selectModel.listData[i].note).Style.Alignment.SetHorizontal(XLAlignmentHorizontalValues.Left);
+                    worksheet.Cell("F" + number).SetValue(selectModel.listData[i].date).Style.Alignment.SetHorizontal(XLAlignmentHorizontalValues.Left);
+
+                    if(selectModel.listData[i].charge == "未定")
+                    {
+                        worksheet.Cell("A" + number).Style.Fill.SetBackgroundColor(color);
+                        worksheet.Cell("B" + number).Style.Fill.SetBackgroundColor(color);
+                        worksheet.Cell("C" + number).Style.Fill.SetBackgroundColor(color);
+                        worksheet.Cell("D" + number).Style.Fill.SetBackgroundColor(color);
+                        worksheet.Cell("E" + number).Style.Fill.SetBackgroundColor(color);
+                        worksheet.Cell("F" + number).Style.Fill.SetBackgroundColor(color);
+                    }
                 }
 
                 // 列の幅を自動調整する
@@ -178,7 +256,7 @@ namespace DBConTemplate.Controllers
                 workbook.SaveAs(stream);
 
                 // ダウンロード
-                var date = DateTime.Now.ToString("MM.dd");
+                var date = DateTime.Now.ToString("MMdd");
                 var fileName = "営業先リスト" + date;
                 Response.Clear();
                 Response.Buffer = true;
@@ -197,13 +275,204 @@ namespace DBConTemplate.Controllers
             var SelectModel = new SelectModel();
             try
             {
-                SelectModel = SelectModel.GetChartData();
+                //棒グラフ生成データ取得
+                SelectModel = SelectModel.GetBarChartData();
+                //円グラフ生成データ取得
+                SelectModel = SelectModel.GetPieChartData();
             }
             catch (Exception e)
             {
                 log.Fatal(e);
             }
             return View("AggrGate", SelectModel);
+        }
+
+        //マスタ管理画面
+        public ActionResult MasterAdmin()
+        {
+            return View();
+        }
+
+        //ユーザ編集画面
+        public ActionResult EditUserList()
+        {
+            var SelectModel = new SelectModel();
+            try
+            {
+                SelectModel = SelectModel.GetUser();
+            }
+            catch (Exception e)
+            {
+                log.Fatal(e);
+            }
+            return View("EditUserList", SelectModel);
+        }
+
+        public ActionResult EditUser(string userCd)
+        {
+            var SelectModel = new SelectModel();
+            try
+            {
+                SelectModel = SelectModel.GetUserDetail(userCd);
+            }
+            catch (Exception e)
+            {
+                log.Fatal(e);
+            }
+            return View("EditUser", SelectModel);
+        }
+
+        public ActionResult CreateUser()
+        {
+            return View();
+        }
+
+        //新規作成
+        public ActionResult SubmitNewUser(string userName, string mail, string password)
+        {
+            SelectModel selectModel = new SelectModel();
+            String errorMessage = String.Empty;
+            try
+            {
+                selectModel.CreateNewUser(userName, mail, password);
+                if (selectModel.errorFlg != 0)
+                {
+                    errorMessage = "データの作成に失敗しました。";
+                }
+            }
+            catch (Exception e)
+            {
+                log.Fatal(e);
+                errorMessage = "データの作成に失敗しました。";
+            }
+            return Json(new { DATA = selectModel, ErrorMessage = errorMessage });
+        }
+
+        //ユーザーデータ更新
+        public ActionResult EditUserDataSubmit(string cd, string userName, string mail, string password)
+        {
+            SelectModel selectModel = new SelectModel();
+            String errorMessage = String.Empty;
+            try
+            {
+                //データ取得
+                selectModel.EditUserData(cd, userName, mail, password);
+            }
+            catch (Exception e)
+            {
+                log.Fatal(e);
+                errorMessage = "データの削除に失敗しました。";
+            }
+            return Json(new { DATA = selectModel, ErrorMessage = errorMessage });
+        }
+
+        //ユーザーデータ削除
+        public ActionResult DeleteUserDataSubmit(string cd)
+        {
+            SelectModel selectModel = new SelectModel();
+            String errorMessage = String.Empty;
+            try
+            {
+                //データ取得
+                selectModel.DeleteUser(cd);
+            }
+            catch (Exception e)
+            {
+                log.Fatal(e);
+                errorMessage = "データの削除に失敗しました。";
+            }
+            return Json(new { DATA = selectModel, ErrorMessage = errorMessage });
+        }
+
+        //ユーザ編集画面
+        public ActionResult EditStatusList()
+        {
+            var SelectModel = new SelectModel();
+            try
+            {
+                SelectModel = SelectModel.GetStatus();
+            }
+            catch (Exception e)
+            {
+                log.Fatal(e);
+            }
+            return View("EditStatusList", SelectModel);
+        }
+
+        public ActionResult CreateStatus()
+        {
+            return View();
+        }
+
+        //新規作成
+        public ActionResult SubmitNewStatus(string statusName)
+        {
+            SelectModel selectModel = new SelectModel();
+            String errorMessage = String.Empty;
+            try
+            {
+                selectModel.CreateNewStatus(statusName);
+                if (selectModel.errorFlg != 0)
+                {
+                    errorMessage = "データの作成に失敗しました。";
+                }
+            }
+            catch (Exception e)
+            {
+                log.Fatal(e);
+                errorMessage = "データの作成に失敗しました。";
+            }
+            return Json(new { DATA = selectModel, ErrorMessage = errorMessage });
+        }
+
+        //状態編集
+        public ActionResult EditStatus(string statusCd)
+        {
+            var SelectModel = new SelectModel();
+            try
+            {
+                SelectModel = SelectModel.GetStatusDetail(statusCd);
+            }
+            catch (Exception e)
+            {
+                log.Fatal(e);
+            }
+            return View("EditStatus", SelectModel);
+        }
+
+        //ユーザーデータ更新
+        public ActionResult EditStatusSubmit(string cd, string statusName)
+        {
+            SelectModel selectModel = new SelectModel();
+            String errorMessage = String.Empty;
+            try
+            {
+                selectModel.EditStatus(cd, statusName);
+            }
+            catch (Exception e)
+            {
+                log.Fatal(e);
+                errorMessage = "データの削除に失敗しました。";
+            }
+            return Json(new { DATA = selectModel, ErrorMessage = errorMessage });
+        }
+
+        //ユーザーデータ削除
+        public ActionResult DeleteStatusSubmit(string cd)
+        {
+            SelectModel selectModel = new SelectModel();
+            String errorMessage = String.Empty;
+            try
+            {
+                //データ取得
+                selectModel.DeleteStatus(cd);
+            }
+            catch (Exception e)
+            {
+                log.Fatal(e);
+                errorMessage = "データの削除に失敗しました。";
+            }
+            return Json(new { DATA = selectModel, ErrorMessage = errorMessage });
         }
     }
 }

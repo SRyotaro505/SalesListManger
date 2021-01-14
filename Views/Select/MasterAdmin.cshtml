@@ -1,0 +1,50 @@
+﻿@section scripts{
+    <script type="text/javascript">
+        $(function () {
+            var auth = sessionStorage.getItem("auth");
+            if (auth != 1) {
+                window.location.href = "../Login/Login";
+            }
+        });
+
+        function toEditUser() {
+            $('#toUser').submit();
+        }
+
+        function toEditStatus() {
+            $('#toData').submit();
+        }
+    </script>
+}
+
+<h2>マスタ管理メニュー</h2>
+
+<div class="jumbotron">
+    <div class="row main-menu">
+        <div class="col-12 text-center">
+            <div class="offset-4 col-4 menu-block bcg-mat" id="editUserParent" onclick="toEditUser()">
+                <img src="~/Content/img/user.png" width="60" style="position:relative; top:-0.5rem; right:7rem">
+                <div class="linking-title text-center" id="editUser" style="padding-bottom: 1rem; margin-top: -3.5rem; margin-left: 2rem;">
+                    ユーザー編集
+                </div>
+                <div class="mt-1 menu-line"></div>
+            </div>
+            <div class="offset-4 col-4 menu-block bcg-mat mt-5" id="editUserParent" onclick="toEditStatus()">
+                <img src="~/Content/img/status.png" width="60" style="position:relative; top:-0.5rem; right:7rem">
+                <div class="linking-title text-center" id="editUser" style="padding-bottom: 1rem; margin-top: -3.5rem; margin-left: 2rem;">
+                    ステータス編集
+                </div>
+                <div class="mt-1 menu-line"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@using (Html.BeginForm("EditUserList", "Select", FormMethod.Post, new { @id = "toUser" }))
+{
+    @Html.Hidden("dataCd", new { @id = "dataCd" })
+}
+@using (Html.BeginForm("EditStatusList", "Select", FormMethod.Post, new { @id = "toData" }))
+{
+    @Html.Hidden("dataCd", new { @id = "dataCd" })
+}

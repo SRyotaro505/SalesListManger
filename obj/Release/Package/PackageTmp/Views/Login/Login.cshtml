@@ -1,0 +1,61 @@
+﻿@model DBConTemplate.Models.LoginModel
+
+@section scripts{
+    <script type="text/javascript">
+        $(function () {
+            sessionStorage.removeItem("auth");
+        });
+
+        function toMain() {
+            var id = $('#userid').val();
+            var password = $('#userpassword').val();
+            $.ajax({
+                type: "POST",
+                url: "../Login/Auth",
+                data: { id: id, password: password },
+                beforeSend: function () {
+                }
+            }).fail(function () {
+                alert("データの取得に失敗しました。")
+            }).done(function (resultData) {
+                if (resultData.ErrorMessage != null && resultData.ErrorMessage != "") {
+                    alert(resultData.ErrorMessage);
+                    return;
+                } else {
+                    sessionStorage.setItem("auth", 1);
+                    window.location.href = "../Select/AjaxSelect";
+                }
+            }).always(function () {
+            });
+        }
+    </script>
+}
+
+<div id="login">
+    <h3 class="text-center text-white">Login form</h3>
+    <div class="container">
+        <div id="login-row" class="row justify-content-center align-items-center">
+            <form id="login-form" class="form" action="" method="post">
+                <h3 class="text-center text-info">Login</h3>
+                <div class="form-group col-12">
+                    <label for="username" class="text-info">ID:</label><br>
+                    <input type="text" name="username" id="userid" class="form-control">
+                </div>
+                <div class="form-group col-12">
+                    <label for="password" class="text-info">Password:</label><br>
+                    <input type="password" name="password" id="userpassword" class="form-control">
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="text-center">
+    <button type="button" class="btn btn-primary" onclick="toMain()">Login</button>
+</div>
+
+@using (Html.BeginForm("Auth", "Login", FormMethod.Post, new { @id = "toMainPage" }))
+{
+    @Html.Hidden("inputId", new { @id = "inputId" })
+    @Html.Hidden("inputPassword", new { @id = "inputPassword" })
+}

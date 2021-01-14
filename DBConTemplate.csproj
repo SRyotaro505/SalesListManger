@@ -227,6 +227,8 @@
     <Content Include="Content\Chart.min.css" />
     <Content Include="Content\Common.css" />
     <Content Include="Content\img\favicon.png" />
+    <Content Include="Content\img\status.png" />
+    <Content Include="Content\img\user.png" />
     <Content Include="Content\Login.css" />
     <Content Include="Content\themes\base\accordion.css" />
     <Content Include="Content\themes\base\all.css" />
@@ -278,6 +280,11 @@
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\Chart.js" />
     <Content Include="Scripts\Chart.min.js" />
+    <Content Include="Scripts\DBConTemplate\CreateStatus.js" />
+    <Content Include="Scripts\DBConTemplate\CreateUser.js" />
+    <Content Include="Scripts\DBConTemplate\EditStatusData.js" />
+    <Content Include="Scripts\DBConTemplate\EditStatus.js" />
+    <Content Include="Scripts\DBConTemplate\EditUserData.js" />
     <Content Include="Scripts\DBConTemplate\EditData.js" />
     <Content Include="Scripts\DBConTemplate\CreateData.js" />
     <Content Include="Scripts\DBConTemplate\AjaxSelect.js" />
@@ -304,6 +311,7 @@
     <None Include=".dockerignore">
       <DependentUpon>Dockerfile</DependentUpon>
     </None>
+    <None Include="Properties\PublishProfiles\SalesListManager - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\Common.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
@@ -402,7 +410,7 @@
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Select\AjaxSelect.cshtml" />
     <Content Include="Views\Select\AggrGate.cshtml" />
-    <Content Include="Views\Select\Index.cshtml" />
+    <Content Include="Views\Select\MasterAdmin.cshtml" />
     <Content Include="Scripts\umd\popper.min.js.map" />
     <Content Include="Scripts\umd\popper.js.map" />
     <Content Include="Scripts\umd\popper.js.flow" />
@@ -417,6 +425,12 @@
     <Content Include="Views\Select\EditData.cshtml" />
     <Content Include="Views\Login\Login.cshtml" />
     <Content Include="Views\Shared\_LoginLayout.cshtml" />
+    <Content Include="Views\Select\EditUserList.cshtml" />
+    <Content Include="Views\Select\EditUser.cshtml" />
+    <Content Include="Views\Select\CreateUser.cshtml" />
+    <Content Include="Views\Select\EditStatusList.cshtml" />
+    <Content Include="Views\Select\CreateStatus.cshtml" />
+    <Content Include="Views\Select\EditStatus.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

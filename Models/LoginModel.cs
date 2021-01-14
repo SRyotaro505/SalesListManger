@@ -79,10 +79,11 @@ namespace DBConTemplate.Models
 
                 //Query生成
                 StringBuilder query = new StringBuilder();
-                query.AppendLine("SELECT * FROM USER_AUTH");
-                query.AppendLine("WHERE");
-                query.AppendLine("id='" + id + "'");
-                query.AppendLine("AND password='" + hashed + "'");
+                query.AppendLine("SELECT* FROM TABLE_USER");
+                query.AppendLine("INNER JOIN user_auth");
+                query.AppendLine("ON TABLE_USER.cd = user_auth.id");
+                query.AppendLine("WHERE MAIL = '" + id + "'");
+                query.AppendLine("AND password = '" + hashed + "'");
 
                 //クエリ実行
                 DataTable dt = this.SqlSelect(conn, query.ToString());

@@ -1,0 +1,41 @@
+﻿@model DBConTemplate.Models.SelectModel
+@section scripts{
+    @Scripts.Render("~/Scripts/DBConTemplate/EditUserData.js")
+    <script type="text/javascript">
+        $(function () {
+            var auth = sessionStorage.getItem("auth");
+            if (auth != 1) {
+                window.location.href = "../Login/Login";
+            }
+        });
+
+        function toList() {
+            window.location.href = "../Select/EditUserList";
+        }
+    </script>
+}
+
+<h2>ユーザー情報更新</h2>
+
+<table class="table">
+    <thead class=" thead-dark text-center">
+        <tr>
+            <th scope="col">名前</th>
+            <th scope="col">メールアドレス</th>
+            <th scope="col">パスワード</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td><input type="text" id="userName" value="@Model.userName" class="form-control"></td>
+            <td><input type="text" id="mail" value="@Model.mail" class="form-control"></td>
+            <td><input type="text" id="password" value="" class="form-control"></td>
+        </tr>
+    </tbody>
+</table>
+
+<div class="text-center">
+    <button type="button" class="btn btn-primary" onclick="toList()">戻る</button>
+    <button type="button" class="btn btn-primary" onclick="submitData(@Model.cd)">登録</button>
+</div>
+

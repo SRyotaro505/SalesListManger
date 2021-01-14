@@ -1,0 +1,6 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<sitemanifest>
+  <IisApp path="C:\Program Files\Work\02_VisualStudio\SaleListManager【2021.01.12】\SalesListManger\obj\Release\Package\PackageTmp" />
+  <setAcl path="C:\Program Files\Work\02_VisualStudio\SaleListManager【2021.01.12】\SalesListManger\obj\Release\Package\PackageTmp" setAclResourceType="Directory" />
+  <setAcl path="C:\Program Files\Work\02_VisualStudio\SaleListManager【2021.01.12】\SalesListManger\obj\Release\Package\PackageTmp" setAclUser="anonymousAuthenticationUser" setAclResourceType="Directory" />
+</sitemanifest>
