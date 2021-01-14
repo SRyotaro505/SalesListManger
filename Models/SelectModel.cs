@@ -429,7 +429,7 @@ namespace DBConTemplate.Models
                 query.AppendLine("ON TABLE_USER.cd = COMPANYLIST.charge");
                 query.AppendLine("INNER JOIN MST_STATUS");
                 query.AppendLine("ON MST_STATUS.cd = COMPANYLIST.status_id");
-                query.AppendLine("ORDER BY COMPANYLIST.created_date ASC");
+                query.AppendLine("ORDER BY COMPANYLIST.cd ASC");
 
                 //総件数取得用
                 String totalCountQuery = query.ToString();
@@ -511,7 +511,7 @@ namespace DBConTemplate.Models
                     query.AppendLine("WHERE");
                     query.AppendLine("status_id='" + statusSearch + "'");
                 }
-                query.AppendLine("ORDER BY COMPANYLIST.created_date ASC");
+                query.AppendLine("ORDER BY COMPANYLIST.cd ASC");
 
                 //総件数取得用
                 String totalCountQuery = query.ToString();
@@ -568,7 +568,7 @@ namespace DBConTemplate.Models
                 query.AppendLine("ON TABLE_USER.cd = COMPANYLIST.charge");
                 query.AppendLine("INNER JOIN MST_STATUS");
                 query.AppendLine("ON MST_STATUS.cd = COMPANYLIST.status_id");
-                query.AppendLine("ORDER BY COMPANYLIST.created_date DESC");
+                query.AppendLine("ORDER BY COMPANYLIST.cd DESC");
 
                 //総件数取得用
                 String totalCountQuery = query.ToString();
@@ -625,7 +625,7 @@ namespace DBConTemplate.Models
                 query.AppendLine("ON TABLE_USER.cd = COMPANYLIST.charge");
                 query.AppendLine("INNER JOIN MST_STATUS");
                 query.AppendLine("ON MST_STATUS.cd = COMPANYLIST.status_id");
-                query.AppendLine("ORDER BY COMPANYLIST.created_date ASC");
+                query.AppendLine("ORDER BY COMPANYLIST.cd ASC");
 
                 //総件数取得用
                 String totalCountQuery = query.ToString();
