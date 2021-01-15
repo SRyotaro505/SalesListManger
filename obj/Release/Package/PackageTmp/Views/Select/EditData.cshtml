@@ -31,13 +31,16 @@
                 <select id="status" class="form-control">
                     @for (var i = 0; i < Model.statusList.Count; i++)
                     {
-                        if (Model.status != Model.statusList[i].cd)
+                        if (Model.statusList[i].cd != "0")
                         {
-                            <option value="@Model.statusList[i].cd">@Model.statusList[i].status</option>
-                        }
-                        else
-                        {
-                            <option value="@Model.statusList[i].cd" selected>@Model.statusList[i].status</option>
+                            if (Model.status != Model.statusList[i].cd)
+                            {
+                                <option value="@Model.statusList[i].cd">@Model.statusList[i].status</option>
+                            }
+                            else
+                            {
+                                <option value="@Model.statusList[i].cd" selected>@Model.statusList[i].status</option>
+                            }
                         }
                     }
                 </select>

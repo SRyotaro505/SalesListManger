@@ -1345,6 +1345,30 @@ namespace DBConTemplate.Models
                 //クエリ実行
                 this.SqlExecution(conn, transaction, query.ToString());
 
+                //Query生成
+                StringBuilder queryCk = new StringBuilder();
+                queryCk.AppendLine("SELECT * FROM COMPANYLIST");
+                queryCk.AppendLine("WHERE status_id='" + cd + "'");
+
+                //総件数取得用
+                String totalCountQuery = queryCk.ToString();
+                //クエリ実行
+                DataTable dt = this.SqlSelect(conn, totalCountQuery.ToString());
+                this.dataCount = dt.Rows.Count;
+
+                if (this.dataCount > 0)
+                {
+                    //Query生成
+                    StringBuilder queryCl = new StringBuilder();
+                    queryCl.AppendLine("UPDATE COMPANYLIST");
+                    queryCl.AppendLine("SET");
+                    queryCl.AppendLine("status_id = '0'");
+                    queryCl.AppendLine("WHERE status_id='" + cd + "'");
+
+                    //クエリ実行
+                    this.SqlExecution(conn, transaction, queryCl.ToString());
+                }
+
                 //コミット
                 base.TranCommit(transaction);
                 return true;

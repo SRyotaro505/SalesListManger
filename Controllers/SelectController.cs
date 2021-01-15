@@ -257,7 +257,7 @@ namespace DBConTemplate.Controllers
 
                 // ダウンロード
                 var date = DateTime.Now.ToString("MMdd");
-                var fileName = "営業先リスト" + date;
+                var fileName = "SalesList" + date;
                 Response.Clear();
                 Response.Buffer = true;
                 Response.ContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";

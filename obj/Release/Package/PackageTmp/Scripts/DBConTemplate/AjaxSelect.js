@@ -253,10 +253,10 @@ function createList(data) {
     var list = $('#dataList');
     data.filter(function (d, index) {
         let tr = "";
-        if (d.charge != "未定") {
-            tr = $('<tr class="text-center">');
-        } else {
+        if (d.charge == "未定" || d.status == "状態未確定") {
             tr = $('<tr class="text-center" name="nocharge" style="background-color:#ffff00">');
+        } else {
+            tr = $('<tr class="text-center">');
         }
         tr.append($('<td class="text-center"><a href="' + d.companyUrl + '" target="_blank">' + d.companyName + '</a>'));
         tr.append($('<td class="text-center">').append(d.status));
