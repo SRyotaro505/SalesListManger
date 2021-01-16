@@ -1,9 +1,11 @@
 ﻿//データ取得処理
 function getData(count) {
+    var usCd = sessionStorage.getItem("userCd");
+
     $.ajax({
         type: "POST",
-        url: "../Select/GetDataFromAjax",
-        data: { count: count},
+        url: "../SelectSp/GetDataFromAjaxSp",
+        data: { count: count, usCd: usCd },
         beforeSend: function () {
             showLoader();
         }
@@ -16,8 +18,6 @@ function getData(count) {
             alert(resultData.ErrorMessage);
             return;
         } else {
-            //総件数表示
-            $('#totalCount').text(resultData.DATA.dataCount + "件");
             //一覧クリア
             $('#dataList').empty();
             $('#paging').empty();
@@ -29,13 +29,26 @@ function getData(count) {
             var pageCnt = Math.ceil(cnt / 10);
             var prev = count - 1;
             var fwd = count + 1;
-            let li = $('<ul class="pagination">');
+            let li = $('<div class="cp_pagination">');
             for (var i = 0; i < pageCnt; i++) {
                 var page = i + 1;
-                if (i == count) {
-                    li.append($('<li><a class="active" onclick=getData("' + i + '") id="page_' + i +'" style="cursor: pointer;"><span>' + page + '</span></a></li>'));
+                if (i > 0) {
+                    var prev = i - 1;
+                    li.append($('<a class="cp_pagenum prev" onclick=getData("' + prev + '")>prev</a>>'));
+                    if (i == count) {
+                        li.append($('<span aria-current="page" class="cp_pagenum current" onclick=getData("' + i + '") id="page_' + i + '"><span>' + page + '</span></a></li>'));
+                    } else {
+                        li.append($('<a class="cp_pagenum" class="cp_pagenum current" onclick=getData("' + i + '") id="page_' + i + '"><span>' + page + '</span></a></li>'));
+                    }
                 } else {
-                    li.append($('<li><a onclick=getData("' + i + '") id="page_' + i +'" style="cursor: pointer;"><span>' + page + '</span></a></li>'));
+                    if (i == count) {
+                        li.append($('<span aria-current="page" class="cp_pagenum current" onclick=getData("' + i + '") id="page_' + i + '"><span>' + page + '</span></a></li>'));
+                    } else {
+                        li.append($('<a class="cp_pagenum" class="cp_pagenum current" onclick=getData("' + i + '") id="page_' + i + '"><span>' + page + '</span></a></li>'));
+                    }
+                }
+                if (pageCnt > 1) {
+                    li.append($('<a class="cp_pagenum next" onclick=getData("' + page + '")>next</a>'));
                 }
             }
             li.append($('</ul>'));
@@ -85,10 +98,6 @@ function searchData(count) {
             alert(resultData.ErrorMessage);
             return;
         } else {
-            //総件クリア
-            $('#totalCount').empty();
-            //総件数表示
-            $('#totalCount').text(resultData.DATA.dataCount + "件");
             //一覧クリア
             $('#dataList').empty();
             //一覧構築
@@ -257,11 +266,7 @@ function delData(cd) {
 
 function createList(data) {
     var list = $('#dataList');
-    var $setElm = $('td[name="note"]');　// 省略する文字のあるセレクタを取得
-    var cutFigure = '10'; // 表示する文字数
-    var afterTxt = ' …'; // 文字カット後に表示するテキスト
     data.filter(function (d, index) {
-        var textTrim = d.note.substr(0, (cutFigure))
         let tr = "";
         if (d.charge == "未定" || d.status == "状態未確定") {
             tr = $('<tr class="text-center" name="nocharge" style="background-color:#ffff00">');
@@ -269,17 +274,9 @@ function createList(data) {
             tr = $('<tr class="text-center">');
         }
         tr.append($('<td class="text-center"><a href="' + d.companyUrl + '" target="_blank">' + d.companyName + '</a>'));
-        tr.append($('<td class="text-center"><a href="mailto:' + d.mail + '" target="_blank">' + d.mail + '</a>'));
         tr.append($('<td class="text-center">').append(d.status));
-        tr.append($('<td class="text-center">').append(d.charge));
-        if (cutFigure < d.note.length) {
-            tr.append($('<td class="text-left" name="note" style="visibility:visible">').append(textTrim + afterTxt));
-        } else {
-            tr.append($('<td class="text-left" name="note" style="visibility:visible">').append(d.note));
-        }
-        tr.append($('<td class="text-center">').append(d.date));
+        tr.append($('<td class="text-center">').append(d.note));
         tr.append($('<td class="text-center"><button type="button" class="btn btn-info" onclick="editData(' + d.cd + ')">編集</button>'));
-        tr.append($('<td class="text-center"><button type="button" class="btn btn-info" onclick="delData(' + d.cd + ')">削除</button>'));
         //一覧に追加
         list.append(tr);
     })

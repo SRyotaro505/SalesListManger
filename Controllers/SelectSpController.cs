@@ -11,28 +11,10 @@ using System.Web.Mvc;
 
 namespace DBConTemplate.Controllers
 {
-    public class SelectController : Controller
+    public class SelectSpController : Controller
     {
         //ログ
         protected static NLog.Logger log = NLog.LogManager.GetLogger("log");
-
-        //リストページ
-        public ActionResult AjaxSelect()
-        {
-            SelectModel selectModel = new SelectModel();
-            String errorMessage = String.Empty;
-            try
-            {
-                selectModel.GetStatus();
-                selectModel.GetUser();
-            }
-            catch (Exception e)
-            {
-                log.Fatal(e);
-                errorMessage = "データの取得に失敗しました。";
-            }
-            return View(selectModel);
-        }
 
         //リストページ
         public ActionResult AjaxSelectSp()
@@ -50,24 +32,6 @@ namespace DBConTemplate.Controllers
                 errorMessage = "データの取得に失敗しました。";
             }
             return View("AjaxSelectSp", "_LayoutMobile", selectModel);
-        }
-
-        //全件取得
-        public ActionResult GetDataFromAjax(int count)
-        {
-            SelectModel selectModel = new SelectModel();
-            String errorMessage = String.Empty;
-            try
-            {
-                //データ取得
-                selectModel.GetData(count);
-            }
-            catch (Exception e)
-            {
-                log.Fatal(e);
-                errorMessage = "データの取得に失敗しました。";
-            }
-            return Json(new { DATA = selectModel, ErrorMessage = errorMessage });
         }
 
         //全件取得SP
@@ -250,14 +214,13 @@ namespace DBConTemplate.Controllers
                 //ヘッダー書き込み
                 worksheet.Cell("A1").Value = "企業名";
                 worksheet.Cell("B1").Value = "URL";
-                worksheet.Cell("C1").Value = "メールアドレス";
-                worksheet.Cell("D1").Value = "担当者";
-                worksheet.Cell("E1").Value = "状態";
-                worksheet.Cell("F1").Value = "備考";
-                worksheet.Cell("G1").Value = "更新日";
+                worksheet.Cell("C1").Value = "担当者";
+                worksheet.Cell("D1").Value = "状態";
+                worksheet.Cell("E1").Value = "備考";
+                worksheet.Cell("F1").Value = "更新日";
                 //スタイル設定
-                worksheet.Range("A1:G1").Style.Border.BottomBorder = XLBorderStyleValues.Double;
-                worksheet.Range("A1:G1").Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
+                worksheet.Range("A1:F1").Style.Border.BottomBorder = XLBorderStyleValues.Double;
+                worksheet.Range("A1:F1").Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
 
                 //データ書き込み
                 for (int i = 0; i < selectModel.listData.Count; i++)
@@ -266,11 +229,10 @@ namespace DBConTemplate.Controllers
                     var number = i + 2;
                     worksheet.Cell("A" + number).SetValue(selectModel.listData[i].companyName).Style.Alignment.SetHorizontal(XLAlignmentHorizontalValues.Left);
                     worksheet.Cell("B" + number).SetValue(selectModel.listData[i].companyUrl).Style.Alignment.SetHorizontal(XLAlignmentHorizontalValues.Left);
-                    worksheet.Cell("C" + number).SetValue(selectModel.listData[i].mail).Style.Alignment.SetHorizontal(XLAlignmentHorizontalValues.Left);
-                    worksheet.Cell("D" + number).SetValue(selectModel.listData[i].charge).Style.Alignment.SetHorizontal(XLAlignmentHorizontalValues.Left);
-                    worksheet.Cell("E" + number).SetValue(selectModel.listData[i].status).Style.Alignment.SetHorizontal(XLAlignmentHorizontalValues.Left);
-                    worksheet.Cell("F" + number).SetValue(selectModel.listData[i].note).Style.Alignment.SetHorizontal(XLAlignmentHorizontalValues.Left);
-                    worksheet.Cell("G" + number).SetValue(selectModel.listData[i].date).Style.Alignment.SetHorizontal(XLAlignmentHorizontalValues.Left);
+                    worksheet.Cell("C" + number).SetValue(selectModel.listData[i].charge).Style.Alignment.SetHorizontal(XLAlignmentHorizontalValues.Left);
+                    worksheet.Cell("D" + number).SetValue(selectModel.listData[i].status).Style.Alignment.SetHorizontal(XLAlignmentHorizontalValues.Left);
+                    worksheet.Cell("E" + number).SetValue(selectModel.listData[i].note).Style.Alignment.SetHorizontal(XLAlignmentHorizontalValues.Left);
+                    worksheet.Cell("F" + number).SetValue(selectModel.listData[i].date).Style.Alignment.SetHorizontal(XLAlignmentHorizontalValues.Left);
 
                     if (selectModel.listData[i].charge == "未定")
                     {

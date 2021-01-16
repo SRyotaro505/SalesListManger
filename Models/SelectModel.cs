@@ -172,6 +172,7 @@ namespace DBConTemplate.Models
         {
             public string cd { get; set; }
             public string companyUrl { get; set; }
+            public string mail { get; set; }
             public string companyName { get; set; }
             public string status { get; set; }
             public string charge { get; set; }
@@ -392,6 +393,7 @@ namespace DBConTemplate.Models
                     data.cd = row["cd"].ToString();
                     data.companyName = row["company_name"].ToString();
                     data.companyUrl = row["company_url"].ToString();
+                    data.mail = row["mail"].ToString();
                     data.status = row["status"].ToString();
                     data.charge = row["user_name"].ToString();
                     data.note = row["note"].ToString();
@@ -445,6 +447,67 @@ namespace DBConTemplate.Models
                     data.cd = row["cd"].ToString();
                     data.companyName = row["company_name"].ToString();
                     data.companyUrl = row["company_url"].ToString();
+                    data.mail = row["mail"].ToString();
+                    data.status = row["status"].ToString();
+                    data.charge = row["user_name"].ToString();
+                    data.note = row["note"].ToString();
+                    var regdate = row["created_date"].ToString();
+                    data.date = DateTime.Parse(regdate).ToString("yyyy/MM/dd");
+                    this.listData.Add(data);
+                }
+
+                //総件数取得
+                dt = this.SqlSelect(conn, totalCountQuery.ToString());
+                this.dataCount = dt.Rows.Count;
+            }
+            catch (Exception ex)
+            {
+                log.Fatal(ex);
+                this.errorFlg = 1;
+                throw ex;
+            }
+            finally
+            {
+                //DB切断
+                base.CloseDbConnect(conn);
+            }
+            return this;
+        }
+
+        //一覧取得SP
+        public SelectModel GetDataSp(int cnt, int usCd)
+        {
+            //DB接続
+            var conn = base.OpenDbConnect();
+            this.pageIndex = cnt;
+            try
+            {
+                //Query生成
+                StringBuilder query = new StringBuilder();
+                query.AppendLine("SELECT * FROM COMPANYLIST");
+                query.AppendLine("INNER JOIN TABLE_USER");
+                query.AppendLine("ON TABLE_USER.cd = COMPANYLIST.charge");
+                query.AppendLine("INNER JOIN MST_STATUS");
+                query.AppendLine("ON MST_STATUS.cd = COMPANYLIST.status_id");
+                query.AppendLine("WHERE");
+                query.AppendLine("charge='" + usCd + "'");
+                query.AppendLine("ORDER BY COMPANYLIST.cd ASC");
+
+                //総件数取得用
+                String totalCountQuery = query.ToString();
+                query.AppendLine(base.GetLimit());
+
+                //クエリ実行
+                DataTable dt = this.SqlSelect(conn, query.ToString());
+
+                //実行結果を格納
+                foreach (DataRow row in dt.Rows)
+                {
+                    rowData data = new rowData();
+                    data.cd = row["cd"].ToString();
+                    data.companyName = row["company_name"].ToString();
+                    data.companyUrl = row["company_url"].ToString();
+                    data.mail = row["mail"].ToString();
                     data.status = row["status"].ToString();
                     data.charge = row["user_name"].ToString();
                     data.note = row["note"].ToString();
@@ -527,6 +590,7 @@ namespace DBConTemplate.Models
                     data.cd = row["cd"].ToString();
                     data.companyName = row["company_name"].ToString();
                     data.companyUrl = row["company_url"].ToString();
+                    data.mail = row["mail"].ToString();
                     data.status = row["status"].ToString();
                     data.charge = row["user_name"].ToString();
                     data.note = row["note"].ToString();
@@ -584,6 +648,7 @@ namespace DBConTemplate.Models
                     data.cd = row["cd"].ToString();
                     data.companyName = row["company_name"].ToString();
                     data.companyUrl = row["company_url"].ToString();
+                    data.mail = row["mail"].ToString();
                     data.status = row["status"].ToString();
                     data.charge = row["user_name"].ToString();
                     data.note = row["note"].ToString();
@@ -641,6 +706,7 @@ namespace DBConTemplate.Models
                     data.cd = row["cd"].ToString();
                     data.companyName = row["company_name"].ToString();
                     data.companyUrl = row["company_url"].ToString();
+                    data.mail = row["mail"].ToString();
                     data.status = row["status"].ToString();
                     data.charge = row["user_name"].ToString();
                     data.note = row["note"].ToString();
@@ -689,6 +755,7 @@ namespace DBConTemplate.Models
                     this.cd = row["cd"].ToString();
                     this.companyName = row["company_name"].ToString();
                     this.companyUrl = row["company_url"].ToString();
+                    this.mail = row["mail"].ToString();
                     this.status = row["status_id"].ToString();
                     this.charge = row["charge"].ToString();
                     this.note = row["note"].ToString();
@@ -744,7 +811,7 @@ namespace DBConTemplate.Models
         }
 
         //新規データ作成
-        public bool CreateNewData(string companyName, string companyUrl, string status, string charge, string note)
+        public bool CreateNewData(string companyName, string companyUrl, string status, string charge, string note, string mail)
         {
             this.errorFlg = 0;
             //DB接続
@@ -758,10 +825,11 @@ namespace DBConTemplate.Models
                 //Query生成
                 StringBuilder query = new StringBuilder();
                 query.AppendLine("INSERT INTO COMPANYLIST");
-                query.AppendLine("(company_name, company_url, status_id, charge, note, created_date)");
+                query.AppendLine("(company_name, company_url, mail, status_id, charge, note, created_date)");
                 query.AppendLine("Values(");
                 query.Append("'").Append(companyName).AppendLine("',");
                 query.Append("'").Append(companyUrl).AppendLine("',");
+                query.Append("'").Append(mail).AppendLine("',");
                 query.Append("'").Append(statInt).AppendLine("',");
                 query.Append("'").Append(charge).AppendLine("',");
                 query.Append("'").Append(note).AppendLine("',");
@@ -789,7 +857,7 @@ namespace DBConTemplate.Models
             }
         }
 
-        public bool EditData(string cd, string companyName, string companyUrl, string status, string charge, string note)
+        public bool EditData(string cd, string companyName, string companyUrl, string status, string charge, string note, string mail)
         {
             //DB接続
             base.OpenDbConnect();
@@ -802,6 +870,7 @@ namespace DBConTemplate.Models
                 query.AppendLine("SET");
                 query.AppendLine("company_name='" + companyName + "'" + ",");
                 query.AppendLine("company_url='" + companyUrl + "'" + ",");
+                query.AppendLine("mail='" + mail + "'" + ",");
                 query.AppendLine("status_id='" + status + "'" + ",");
                 query.AppendLine("charge='" + charge + "'" + ",");
                 query.AppendLine("note='" + note + "'" + ",");
@@ -1255,7 +1324,7 @@ namespace DBConTemplate.Models
             }
         }
 
-        //新規データ作成
+        //新規ステータス作成
         public bool CreateNewStatus(string statusName)
         {
             this.errorFlg = 0;

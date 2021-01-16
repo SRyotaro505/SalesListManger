@@ -491,6 +491,7 @@ C:\ProgramData\WorkSpace\02_VisualStudio\営業リスト管理システム【202
 C:\ProgramData\WorkSpace\02_VisualStudio\営業リスト管理システム【2020.01.14】\trunk\bin\ja\System.Web.WebPages.resources.dll
 C:\ProgramData\WorkSpace\02_VisualStudio\営業リスト管理システム【2020.01.14】\trunk\bin\ja\System.Web.WebPages.Deployment.resources.dll
 C:\ProgramData\WorkSpace\02_VisualStudio\営業リスト管理システム【2020.01.14】\trunk\bin\ja\System.Web.WebPages.Razor.resources.dll
+C:\ProgramData\WorkSpace\02_VisualStudio\営業リスト管理システム【2020.01.14】\trunk\obj\Debug\DBConTemplate.csprojAssemblyReference.cache
 C:\ProgramData\WorkSpace\02_VisualStudio\営業リスト管理システム【2020.01.14】\trunk\obj\Debug\DBConTemplate.csproj.CoreCompileInputs.cache
 C:\ProgramData\WorkSpace\02_VisualStudio\営業リスト管理システム【2020.01.14】\trunk\obj\Debug\DBConTemplate.csproj.CopyComplete
 C:\ProgramData\WorkSpace\02_VisualStudio\営業リスト管理システム【2020.01.14】\trunk\obj\Debug\DBConTemplate.dll

@@ -90,6 +90,14 @@ namespace DBConTemplate.Models
 
                 //総件数取得
                 dt = this.SqlSelect(conn, query.ToString());
+
+                //実行結果を格納
+                foreach (DataRow row in dt.Rows)
+                {
+                    rowData data = new rowData();
+                    data.cd = row["cd"].ToString();
+                    this.cd = data.cd;
+                }
                 this.dataCount = dt.Rows.Count;
             }
             catch (Exception ex)

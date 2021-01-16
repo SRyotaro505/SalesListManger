@@ -207,6 +207,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\LoginController.cs" />
+    <Compile Include="Controllers\SelectSpController.cs" />
     <Compile Include="Controllers\SelectController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -280,6 +281,7 @@
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\Chart.js" />
     <Content Include="Scripts\Chart.min.js" />
+    <Content Include="Scripts\DBConTemplate\AjaxSelectSp.js" />
     <Content Include="Scripts\DBConTemplate\CreateStatus.js" />
     <Content Include="Scripts\DBConTemplate\CreateUser.js" />
     <Content Include="Scripts\DBConTemplate\EditStatusData.js" />
@@ -431,6 +433,11 @@
     <Content Include="Views\Select\EditStatusList.cshtml" />
     <Content Include="Views\Select\CreateStatus.cshtml" />
     <Content Include="Views\Select\EditStatus.cshtml" />
+    <Content Include="Views\Shared\_LayoutMobile.cshtml" />
+    <Content Include="Views\SelectSp\AjaxSelectSp.cshtml" />
+    <Content Include="Views\SelectSp\CreateData.cshtml" />
+    <Content Include="Views\SelectSp\CreateStatus.cshtml" />
+    <Content Include="Views\SelectSp\EditData.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

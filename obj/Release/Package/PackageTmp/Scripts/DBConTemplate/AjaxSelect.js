@@ -16,6 +16,8 @@ function getData(count) {
             alert(resultData.ErrorMessage);
             return;
         } else {
+            //総件数表示
+            $('#totalCount').text(resultData.DATA.dataCount + "件");
             //一覧クリア
             $('#dataList').empty();
             $('#paging').empty();
@@ -83,6 +85,10 @@ function searchData(count) {
             alert(resultData.ErrorMessage);
             return;
         } else {
+            //総件クリア
+            $('#totalCount').empty();
+            //総件数表示
+            $('#totalCount').text(resultData.DATA.dataCount + "件");
             //一覧クリア
             $('#dataList').empty();
             //一覧構築
@@ -251,7 +257,11 @@ function delData(cd) {
 
 function createList(data) {
     var list = $('#dataList');
+    var $setElm = $('td[name="note"]');　// 省略する文字のあるセレクタを取得
+    var cutFigure = '10'; // 表示する文字数
+    var afterTxt = ' …'; // 文字カット後に表示するテキスト
     data.filter(function (d, index) {
+        var textTrim = d.note.substr(0, (cutFigure))
         let tr = "";
         if (d.charge == "未定" || d.status == "状態未確定") {
             tr = $('<tr class="text-center" name="nocharge" style="background-color:#ffff00">');
@@ -259,9 +269,14 @@ function createList(data) {
             tr = $('<tr class="text-center">');
         }
         tr.append($('<td class="text-center"><a href="' + d.companyUrl + '" target="_blank">' + d.companyName + '</a>'));
+        tr.append($('<td class="text-center"><a href="mailto:' + d.mail + '" target="_blank">' + d.mail + '</a>'));
         tr.append($('<td class="text-center">').append(d.status));
         tr.append($('<td class="text-center">').append(d.charge));
-        tr.append($('<td class="text-center">').append(d.note));
+        if (cutFigure < d.note.length) {
+            tr.append($('<td class="text-left" name="note" style="visibility:visible">').append(textTrim + afterTxt));
+        } else {
+            tr.append($('<td class="text-left" name="note" style="visibility:visible">').append(d.note));
+        }
         tr.append($('<td class="text-center">').append(d.date));
         tr.append($('<td class="text-center"><button type="button" class="btn btn-info" onclick="editData(' + d.cd + ')">編集</button>'));
         tr.append($('<td class="text-center"><button type="button" class="btn btn-info" onclick="delData(' + d.cd + ')">削除</button>'));

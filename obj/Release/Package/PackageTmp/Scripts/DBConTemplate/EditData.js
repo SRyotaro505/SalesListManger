@@ -5,11 +5,34 @@ function submitData(cd) {
     var status = $('#status').val();
     var charge = $('#charge').val();
     var note = $('#note').val();
+    var mail = $('#mail').val();
+    if (companyName == "" && companyUrl == "" && mail == "") {
+        alert("企業名を入力してください。\r\n企業URLを入力してください。\r\nメールアドレスを入力してください。");
+        return false;
+    } else if (companyName != "" && companyUrl == "" && mail == "") {
+        alert("企業URLを入力してください。\r\nメールアドレスを入力してください。");
+        return false;
+    } else if (companyName != "" && companyUrl != "" && mail == "") {
+        alert("メールアドレスを入力してください。");
+        return false;
+    } else if (companyName == "" && companyUrl != "" && mail == "") {
+        alert("企業名を入力してください\r\nメールアドレスを入力してください。");
+        return false;
+    } else if (companyName == "" && companyUrl != "" && mail != "") {
+        alert("企業名を入力してください。");
+        return false;
+    } else if (companyName == "" && companyUrl == "" && mail != "") {
+        alert("企業名を入力してください。\r\n企業URLを入力してください。");
+        return false;
+    } else if (companyName != "" && companyUrl == "" && mail != "") {
+        alert("企業URLを入力してください。");
+        return false;
+    }
 
     $.ajax({
         type: "POST",
         url: "../Select/EditDataSubmit",
-        data: { cd:cd, companyName: companyName, companyUrl: companyUrl, status: status, charge: charge, note: note },
+        data: { cd: cd, companyName: companyName, companyUrl: companyUrl, status: status, charge: charge, note: note, mail: mail },
         beforeSend: function () {
             showLoader();
         }
