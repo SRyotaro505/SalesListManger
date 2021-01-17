@@ -228,6 +228,7 @@
     <Content Include="Content\Chart.min.css" />
     <Content Include="Content\Common.css" />
     <Content Include="Content\img\favicon.png" />
+    <Content Include="Content\img\icon256.png" />
     <Content Include="Content\img\status.png" />
     <Content Include="Content\img\user.png" />
     <Content Include="Content\Login.css" />
@@ -275,6 +276,7 @@
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="service_worker.js" />
     <Content Include="Scripts\bootstrap.bundle.js" />
     <Content Include="Scripts\bootstrap.bundle.min.js" />
     <Content Include="Scripts\bootstrap.js" />
@@ -282,8 +284,10 @@
     <Content Include="Scripts\Chart.js" />
     <Content Include="Scripts\Chart.min.js" />
     <Content Include="Scripts\DBConTemplate\AjaxSelectSp.js" />
+    <Content Include="Scripts\DBConTemplate\CreateDataSp.js" />
     <Content Include="Scripts\DBConTemplate\CreateStatus.js" />
     <Content Include="Scripts\DBConTemplate\CreateUser.js" />
+    <Content Include="Scripts\DBConTemplate\EditDataSp.js" />
     <Content Include="Scripts\DBConTemplate\EditStatusData.js" />
     <Content Include="Scripts\DBConTemplate\EditStatus.js" />
     <Content Include="Scripts\DBConTemplate\EditUserData.js" />
@@ -313,6 +317,7 @@
     <None Include=".dockerignore">
       <DependentUpon>Dockerfile</DependentUpon>
     </None>
+    <Content Include="manifest.json" />
     <None Include="Properties\PublishProfiles\SalesListManager - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\Common.js" />
@@ -435,9 +440,9 @@
     <Content Include="Views\Select\EditStatus.cshtml" />
     <Content Include="Views\Shared\_LayoutMobile.cshtml" />
     <Content Include="Views\SelectSp\AjaxSelectSp.cshtml" />
-    <Content Include="Views\SelectSp\CreateData.cshtml" />
+    <Content Include="Views\SelectSp\CreateDataSp.cshtml" />
     <Content Include="Views\SelectSp\CreateStatus.cshtml" />
-    <Content Include="Views\SelectSp\EditData.cshtml" />
+    <Content Include="Views\SelectSp\EditDataSp.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

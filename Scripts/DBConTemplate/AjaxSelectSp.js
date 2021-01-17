@@ -18,6 +18,8 @@ function getData(count) {
             alert(resultData.ErrorMessage);
             return;
         } else {
+            //総件数表示
+            $('#totalCount').text(resultData.DATA.dataCount + "件");
             //一覧クリア
             $('#dataList').empty();
             $('#paging').empty();
@@ -32,23 +34,10 @@ function getData(count) {
             let li = $('<div class="cp_pagination">');
             for (var i = 0; i < pageCnt; i++) {
                 var page = i + 1;
-                if (i > 0) {
-                    var prev = i - 1;
-                    li.append($('<a class="cp_pagenum prev" onclick=getData("' + prev + '")>prev</a>>'));
-                    if (i == count) {
-                        li.append($('<span aria-current="page" class="cp_pagenum current" onclick=getData("' + i + '") id="page_' + i + '"><span>' + page + '</span></a></li>'));
-                    } else {
-                        li.append($('<a class="cp_pagenum" class="cp_pagenum current" onclick=getData("' + i + '") id="page_' + i + '"><span>' + page + '</span></a></li>'));
-                    }
+                if (i == count) {
+                    li.append($('<span aria-current="page" class="cp_pagenum current" onclick=getData("' + i + '") id="page_' + i + '"><span>' + page + '</span></a></li>'));
                 } else {
-                    if (i == count) {
-                        li.append($('<span aria-current="page" class="cp_pagenum current" onclick=getData("' + i + '") id="page_' + i + '"><span>' + page + '</span></a></li>'));
-                    } else {
-                        li.append($('<a class="cp_pagenum" class="cp_pagenum current" onclick=getData("' + i + '") id="page_' + i + '"><span>' + page + '</span></a></li>'));
-                    }
-                }
-                if (pageCnt > 1) {
-                    li.append($('<a class="cp_pagenum next" onclick=getData("' + page + '")>next</a>'));
+                    li.append($('<a class="cp_pagenum" class="cp_pagenum current" onclick=getData("' + i + '") id="page_' + i + '"><span>' + page + '</span></a></li>'));
                 }
             }
             li.append($('</ul>'));
@@ -98,8 +87,13 @@ function searchData(count) {
             alert(resultData.ErrorMessage);
             return;
         } else {
+            //総件クリア
+            $('#totalCount').empty();
+            //総件数表示
+            $('#totalCount').text(resultData.DATA.dataCount + "件");
             //一覧クリア
             $('#dataList').empty();
+            $('#paging').empty();
             //一覧構築
             createList(resultData.DATA.listData);
             //ページネーション
@@ -109,13 +103,13 @@ function searchData(count) {
             var pageCnt = Math.ceil(cnt / 10);
             var prev = count - 1;
             var fwd = count + 1;
-            let li = $('<ul class="pagination">');
+            let li = $('<div class="cp_pagination">');
             for (var i = 0; i < pageCnt; i++) {
                 var page = i + 1;
                 if (i == count) {
-                    li.append($('<li><a class="active" onclick=searchData("' + i + '") id="page_' + i + '" style="cursor: pointer;"><span>' + page + '</span></a></li>'));
+                    li.append($('<span aria-current="page" class="cp_pagenum current" onclick=getData("' + i + '") id="page_' + i + '"><span>' + page + '</span></a></li>'));
                 } else {
-                    li.append($('<li><a onclick=searchData("' + i + '") id="page_' + i + '" style="cursor: pointer;"><span>' + page + '</span></a></li>'));
+                    li.append($('<a class="cp_pagenum" class="cp_pagenum current" onclick=getData("' + i + '") id="page_' + i + '"><span>' + page + '</span></a></li>'));
                 }
             }
             li.append($('</ul>'));
@@ -149,24 +143,28 @@ function searchDataDesc(count) {
             alert(resultData.ErrorMessage);
             return;
         } else {
+            //総件クリア
+            $('#totalCount').empty();
+            //総件数表示
+            $('#totalCount').text(resultData.DATA.dataCount + "件");
             //一覧クリア
             $('#dataList').empty();
+            $('#paging').empty();
             //一覧構築
             createList(resultData.DATA.listData);
             //ページネーション
-            $('#paging').empty();
             var list = $('#paging');
-            cnt = resultData.DATA.dataCount;
+            var cnt = resultData.DATA.dataCount;
             var pageCnt = Math.ceil(cnt / 10);
             var prev = count - 1;
             var fwd = count + 1;
-            let li = $('<ul class="pagination">');
+            let li = $('<div class="cp_pagination">');
             for (var i = 0; i < pageCnt; i++) {
                 var page = i + 1;
                 if (i == count) {
-                    li.append($('<li><a class="active" onclick=searchDataDesc("' + i + '") id="page_' + i + '" style="cursor: pointer;"><span>' + page + '</span></a></li>'));
+                    li.append($('<span aria-current="page" class="cp_pagenum current" onclick=getData("' + i + '") id="page_' + i + '"><span>' + page + '</span></a></li>'));
                 } else {
-                    li.append($('<li><a onclick=searchDataDesc("' + i + '") id="page_' + i + '" style="cursor: pointer;"><span>' + page + '</span></a></li>'));
+                    li.append($('<a class="cp_pagenum" class="cp_pagenum current" onclick=getData("' + i + '") id="page_' + i + '"><span>' + page + '</span></a></li>'));
                 }
             }
             li.append($('</ul>'));
@@ -200,24 +198,28 @@ function searchDataAsc(count) {
             alert(resultData.ErrorMessage);
             return;
         } else {
+            //総件クリア
+            $('#totalCount').empty();
+            //総件数表示
+            $('#totalCount').text(resultData.DATA.dataCount + "件");
             //一覧クリア
             $('#dataList').empty();
+            $('#paging').empty();
             //一覧構築
             createList(resultData.DATA.listData);
             //ページネーション
-            $('#paging').empty();
             var list = $('#paging');
             var cnt = resultData.DATA.dataCount;
             var pageCnt = Math.ceil(cnt / 10);
             var prev = count - 1;
             var fwd = count + 1;
-            let li = $('<ul class="pagination">');
+            let li = $('<div class="cp_pagination">');
             for (var i = 0; i < pageCnt; i++) {
                 var page = i + 1;
                 if (i == count) {
-                    li.append($('<li><a class="active" onclick=searchDataAsc("' + i + '") id="page_' + i + '" style="cursor: pointer;"><span>' + page + '</span></a></li>'));
+                    li.append($('<span aria-current="page" class="cp_pagenum current" onclick=getData("' + i + '") id="page_' + i + '"><span>' + page + '</span></a></li>'));
                 } else {
-                    li.append($('<li><a onclick=searchDataAsc("' + i + '") id="page_' + i + '" style="cursor: pointer;"><span>' + page + '</span></a></li>'));
+                    li.append($('<a class="cp_pagenum" class="cp_pagenum current" onclick=getData("' + i + '") id="page_' + i + '"><span>' + page + '</span></a></li>'));
                 }
             }
             li.append($('</ul>'));
@@ -266,7 +268,11 @@ function delData(cd) {
 
 function createList(data) {
     var list = $('#dataList');
+    var $setElm = $('td[name="note"]');　// 省略する文字のあるセレクタを取得
+    var cutFigure = '5'; // 表示する文字数
+    var afterTxt = ' …'; // 文字カット後に表示するテキスト
     data.filter(function (d, index) {
+        var textTrim = d.note.substr(0, (cutFigure))
         let tr = "";
         if (d.charge == "未定" || d.status == "状態未確定") {
             tr = $('<tr class="text-center" name="nocharge" style="background-color:#ffff00">');
@@ -275,7 +281,12 @@ function createList(data) {
         }
         tr.append($('<td class="text-center"><a href="' + d.companyUrl + '" target="_blank">' + d.companyName + '</a>'));
         tr.append($('<td class="text-center">').append(d.status));
-        tr.append($('<td class="text-center">').append(d.note));
+        tr.append($('<td class="text-center">').append(d.charge));
+        //if (cutFigure < d.note.length) {
+        //    tr.append($('<td class="text-left" name="note" style="visibility:visible">').append(textTrim + afterTxt));
+        //} else {
+        //    tr.append($('<td class="text-left" name="note" style="visibility:visible">').append(d.note));
+        //}
         tr.append($('<td class="text-center"><button type="button" class="btn btn-info" onclick="editData(' + d.cd + ')">編集</button>'));
         //一覧に追加
         list.append(tr);
@@ -283,5 +294,5 @@ function createList(data) {
 }
 
 function createData() {
-    window.location.href = "../Select/CreateData";
+    window.location.href = "../SelectSp/CreateDataSp";
 }

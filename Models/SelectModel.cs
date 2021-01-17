@@ -489,8 +489,6 @@ namespace DBConTemplate.Models
                 query.AppendLine("ON TABLE_USER.cd = COMPANYLIST.charge");
                 query.AppendLine("INNER JOIN MST_STATUS");
                 query.AppendLine("ON MST_STATUS.cd = COMPANYLIST.status_id");
-                query.AppendLine("WHERE");
-                query.AppendLine("charge='" + usCd + "'");
                 query.AppendLine("ORDER BY COMPANYLIST.cd ASC");
 
                 //総件数取得用

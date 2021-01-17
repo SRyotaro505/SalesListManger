@@ -1,0 +1,68 @@
+﻿@model DBConTemplate.Models.SelectModel
+@section scripts{
+    @Scripts.Render("~/Scripts/DBConTemplate/CreateDataSp.js")
+
+    <script type="text/javascript">
+        $(function () {
+            var auth = sessionStorage.getItem("auth");
+            if (auth != 1) {
+                window.location.href = "../Login/Login";
+            }
+        });
+    </script>
+}
+
+<h2>新規作成</h2>
+
+<table class="table table-striped">
+    <tr>
+        <th class="thead-dark text-center">企業名</th>
+        <td class="pt-1"><span class="badge badge-danger">*</span><input type="text" id="companyName" class="form-control"></td>
+    </tr>
+    <tr>
+        <th class="thead-dark text-center">企業URL</th>
+        <td class="pt-1"><span class="badge badge-danger">*</span><input type="text" id="companyUrl" class="form-control"></td>
+    </tr>
+    <tr>
+        <th class="text-center">状態</th>
+        <td>
+            <select id="status" class="form-control">
+                @for (var i = 0; i < Model.statusList.Count; i++)
+                {
+                    if (Model.statusList[i].cd != "0")
+                    {
+                        <option value="@Model.statusList[i].cd">@Model.statusList[i].status</option>
+                    }
+                }
+            </select>
+        </td>
+    </tr>
+    <tr>
+        <th class="thead-dark text-center">担当者</th>
+        <td>
+            <select id="charge" class="form-control">
+                @for (var i = 0; i < Model.userList.Count; i++)
+                {
+                    if (Model.userList[i].cd == "0")
+                    {
+                        <option value="@Model.userList[i].cd" selected>@Model.userList[i].userName</option>
+                    }
+                    else
+                    {
+                        <option value="@Model.userList[i].cd">@Model.userList[i].userName</option>
+                    }
+                }
+            </select>
+        </td>
+    </tr>
+    <tr>
+        <th class="text-center">備考</th>
+        <td><textarea id="note" class="form-control"></textarea></td>
+    </tr>
+</table>
+
+<div class="text-center">
+    <button type="button" class="btn btn-primary" onclick="toList()">戻る</button>
+    <button type="button" class="btn btn-primary" id="submit" onclick="submitData()">登録</button>
+</div>
+

@@ -14,17 +14,13 @@
             $('#dataCd').val(cd);
             $('#toEditData').submit();
         }
-
-        function excelDownload() {
-            $('#toExcel').submit();
-        }
     </script>
 }
 
 <div class="row">
     <div class="col-12">
         <div class="form-row">
-            <div class="form-group col-3">
+            <div class="form-group col-4">
                 <select id="statusSearch" class="form-control">
                     <option value='' selected>状態</option>
                     @for (var i = 0; i < Model.statusList.Count; i++)
@@ -36,11 +32,16 @@
                     }
                 </select>
             </div>
-            <div class="col-6 text-left">
-                <button type="button" class="btn btn-primary " onclick="searchDataDesc(0)">↓ 降順</button>
-                <button type="button" class="btn btn-primary" onclick="getData(0)">昇順 ↑</button>
+            <div class="form-group col-4">
+                <select id="chargeSearch" class="form-control">
+                    <option value="" selected>担当者</option>
+                    @for (var i = 0; i < Model.userList.Count; i++)
+                    {
+                        <option value="@Model.userList[i].cd">@Model.userList[i].userName</option>
+                    }
+                </select>
             </div>
-            <div class="form-group col-3">
+            <div class="form-group col-4 text-right">
                 <button type="button" class="btn btn-primary" onclick="searchCheck()">検索</button>
             </div>
         </div>
@@ -48,14 +49,24 @@
 </div>
 
 <div class="row">
+    <div class="col-6 mt-1">
+        <h5 id="totalCount"></h5>
+    </div>
+    <div class="col-6 mb-3 text-right">
+        <button type="button" class="btn btn-primary " onclick="searchDataDesc(0)">↓ 降順</button>
+        <button type="button" class="btn btn-primary" onclick="getData(0)">昇順 ↑</button>
+    </div>
+</div>
+
+<div class="row">
     <div class="col-12">
         <table class="table">
-            <thead class="thead-dark text-center col-md-12 mr-3">
+            <thead class="thead-dark text-center">
                 <tr>
-                    <th scope="col">企業名</th>
-                    <th scope="col">状態</th>
-                    <th scope="col">備考</th>
-                    <th scope="col"></th>
+                    <th style="width: 25%">企業名</th>
+                    <th style="width: 25%">担当者</th>
+                    <th style="width: 25%">状態</th>
+                    <th style="width: 25%"></th>
                 </tr>
             </thead>
             <tbody class="text-center" id="dataList">
@@ -70,12 +81,6 @@
     </div>
 </div>
 
-@*<div class="row">
-        <div class="col-12 text-left">
-            <div class="pager" id="paging"></div>
-        </div>
-    </div>*@
-
 <div class="row">
     <div class="col-12 text-center">
         <nav class="cp_navi" id="paging">
@@ -83,13 +88,7 @@
     </div>
 </div>
 
-@using (Html.BeginForm("EditData", "Select", FormMethod.Post, new { @id = "toEditData" }))
+@using (Html.BeginForm("EditDataSp", "SelectSp", FormMethod.Post, new { @id = "toEditData" }))
 {
     @Html.Hidden("dataCd", new { @id = "dataCd" })
 }
-
-@using (Html.BeginForm("DownloadExcel", "Select", FormMethod.Post, new { @id = "toExcel" }))
-{
-    @Html.Hidden("dataCd", new { @id = "dataCd" })
-}
-
